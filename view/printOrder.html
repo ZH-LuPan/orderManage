@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>配镜销售单</title>
+    <link rel="stylesheet" type="text/css" media="screen,print" href="../public/layui/css/layui.css">
+    <link rel="stylesheet" type="text/css" media="screen,print" href="../public/static/css/print.css">
+</head>
+
+<body>
+<div class="salesList">
+    <div class="salesList-title">配镜销售单 <div class="salesList-serial"></div>
+    </div>
+    <div class="content">
+        <div class="layui-container layui-display">
+            <div class="layui-row">
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md3">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">姓名</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="user_name" autocomplete="off" value="" class="layui-input line-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">地址</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="address"  autocomplete="off" class="layui-input line-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs4 layui-col-sm12 layui-col-md3">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">电话</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="phone" autocomplete="off" class="layui-input line-input">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <table class="layui-table" width="400" border="0" cellspacing="0" cellpadding="0">
+                <colgroup>
+                    <col width="120">
+                    <col width="180">
+                    <col>
+                </colgroup>
+                <thead>
+                <tr>
+                    <th colspan="2">用途：</th>
+                    <th>球镜SPH</th>
+                    <th>球柱CLY</th>
+                    <th>轴位AX</th>
+                    <th>下加ADD</th>
+                    <th>瞳高PH</th>
+                    <th>瞳距PD</th>
+                    <th>矫正视力VA</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td rowspan="2">配镜光度</td>
+                    <td>R</td>
+                    <td id="right_eye_num"></td>
+                    <td id="right_eye_light"></td>
+                    <td id="right_eye_axle"></td>
+                    <td></td>
+                    <td></td>
+                    <td class="eye_len"></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>L</td>
+                    <td id="left_eye_num"></td>
+                    <td id="left_eye_light"></td>
+                    <td id="left_eye_axle"></td>
+                    <td></td>
+                    <td></td>
+                    <td class="eye_len"></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td colspan="9">
+                        <div class="layui-td">
+                            <div class="layui-container">
+                                <div class="layui-row">
+                                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">镜片</label>
+                                            <div class="layui-input-block">
+                                                <input type="text" name="eyeglasses" autocomplete="off" class="layui-input line-input">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">价格</label>
+                                            <div class="layui-input-block">
+                                                <input type="text" name="" autocomplete="off" class="layui-input line-input">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-container">
+                                <div class="layui-row">
+                                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">镜架</label>
+                                            <div class="layui-input-block">
+                                                <input type="text" name="eyeglasses_frame" autocomplete="off" class="layui-input line-input">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">价格</label>
+                                            <div class="layui-input-block">
+                                                <input type="text" name="" autocomplete="off" class="layui-input line-input">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="layui-col-xs4 layui-col-sm12 layui-col-md4">
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">总价</label>
+                                            <div class="layui-input-block">
+                                                <input type="text" name="price" autocomplete="off" class="layui-input line-input">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-container">
+                                <div class="layui-row">
+                                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md8">
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">备注</label>
+                                            <div class="layui-input-block">
+                                                <input type="text" name="description" autocomplete="off" class="layui-input line-input">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="content-date"><img id="eqCode" src="">
+                                日期 : <span id="order_date"></span></div>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>
+</div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" id="printBtn">打印</button>
+        </div>
+    </div>
+</div>
+<script src="../public/layui/layui.all.js"></script>
+<script src="../public/jquery-1.11.3/jquery.min.js"></script>
+<script src="http://www.jq22.com/jquery/jquery-migrate-1.2.1.min.js"></script>
+<script src="../public/print/jquery.jqprint-0.3.js"></script>
+<script src="../public/static/js/common.js"></script>
+<script>
+    $(function () {
+        var id = getUrlParam('id');
+        var has_image = getUrlParam('hasImg');
+        $('input[name="id"]').val(id);
+        if(id){
+            createEqCode(id,has_image);
+            pageDateInit(id);
+        }
+    })
+    function pageDateInit(id){
+        $.post('../action/order.php?action=orderInfo',{'id':id},function (res) {
+            var result = JSON.parse(res);
+            var info = result.data;
+            if(result.code === 200){
+                $('input[name="user_name"]').attr('value',info.user_name);
+                $('input[name="address"]').attr('value',info.address);
+                $('input[name="phone"]').attr('value',info.phone);
+                $('input[name="eyeglasses"]').attr('value',info.eyeglasses);
+                $('input[name="eyeglasses_frame"]').attr('value',info.eyeglasses_frame);
+                $('input[name="price"]').attr('value',info.price);
+                $('input[name="description"]').attr('value',info.description);
+                $('#order_date').html(info.order_date)
+                $('.salesList-serial').html('NO.'+info.order_num)
+                $('#right_eye_num').html(info.right_eye_num)
+                $('#right_eye_light').html(info.right_eye_light)
+                $('#right_eye_axle').html(info.right_eye_axle)
+                $('#left_eye_num').html(info.left_eye_num)
+                $('#left_eye_light').html(info.left_eye_light)
+                $('#left_eye_axle').html(info.left_eye_axle)
+                $('.eye_len').html(info.eye_len)
+            }
+        })
+    }
+
+    function createEqCode(id,has_image){
+        if(has_image == 1){
+            $('#eqCode').attr('src','http://qr.liantu.com/api.php?&w=200&text=http://sjytwl.com/orderManage/orderImage.html?id='+id)
+        }
+    }
+
+    $('#printBtn').on('click',function () {
+        $('.salesList').jqprint({
+            debug: false, //如果是true则可以显示iframe查看效果（iframe默认高和宽都很小，可以再源码中调大），默认是false
+            importCSS: true, //true表示引进原来的页面的css，默认是true。（如果是true，先会找$("link[media=print]")，若没有会去找$("link")中的css文件）
+            printContainer: true, //表示如果原来选择的对象必须被纳入打印（注意：设置为false可能会打破你的CSS规则）。
+            operaSupport: false
+        });
+        //修改状态
+        $.post('../action/order.php?action=print',{"id":getUrlParam('id')},function(res){
+
+        });
+    })
+
+</script>

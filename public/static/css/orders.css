@@ -1,0 +1,220 @@
+html{
+    font-size: 100px;
+}
+body,a,ul,li{
+    padding:0;
+    margin:0;
+    list-style: none;
+    text-decoration: none;
+}
+body{
+    /*width: 100%;*/
+    background: rgb(240,240,240);
+}
+
+div{
+    box-sizing: border-box;
+}
+
+.header{
+    position: fixed;
+    left:0;
+
+    top:0;
+
+    width:100%;
+
+    z-index: 10;
+
+}
+
+.head{
+
+    font-size: 0.16rem;
+
+    height: 0.44rem;
+
+    background: #009688 ;
+
+    color: white;
+
+    text-align: center;
+
+    line-height: 0.44rem;
+
+}
+
+.head>a{
+
+    color: white;
+
+    float: left;
+
+    margin-left: 0.12rem;
+
+}
+
+.nav{
+
+    height: 0.44rem;
+
+    background: white;
+
+    font-size: 0.12rem;
+
+    line-height: 0.44rem;
+
+    padding-left: 0.28rem;
+
+
+}
+
+
+
+.nav>ul>li{
+
+    float: left;
+
+    margin:0px 0.15rem;
+
+
+}
+
+.content{
+
+    margin-top:0.6rem;
+
+}
+
+.cell1{
+
+    height: 2.80rem;
+
+    background: white;
+
+    font-size: 0.12rem;
+
+    margin-top:0.00rem;
+
+}
+
+.title{
+
+    height: 0.22rem;
+
+    border-bottom: 1px solid #D8D8D8;
+
+    padding-left: 0.12rem;
+
+    padding-right: 0.12rem;
+
+}
+
+.title>span{
+
+    float: right;
+
+    font-size: 0.09rem;
+
+    color: #A4A3A3;
+
+}
+
+.cell{
+
+    height: 2.80rem;
+
+    background: white;
+
+    border-bottom: 1px solid #D8D8D8;
+
+    padding:0.12rem 0;
+
+}
+
+.cell>.img{
+
+    width: 1.27rem;
+
+    height: 0.72rem;
+
+    float: left;
+
+    margin-left: 0.12rem;
+
+}
+
+/*.content{
+overflow: scroll;
+}*/
+
+.cell>.text{
+
+    width: 2.12rem;
+
+    margin-right: 0.12rem;
+
+    float:right
+
+}
+
+.cell>.text>span{
+
+    display: block;
+
+}
+
+.cell .intro{
+
+    font-size: 0.1rem;
+
+    color: #A4A3A3;
+
+}
+
+.cell .spay{
+
+    font-size: 0.09rem;
+
+    color: #A4A3A3;
+
+
+}
+
+.cell .pay{
+
+    color: #26A69A ;
+
+    font-size: 0.1rem;
+
+}
+
+.footer{
+
+    height: 0.32rem;
+
+    padding: 0.1rem;
+
+    text-align: center;
+
+}
+
+.footer>.btn{
+
+    float: right;
+
+}
+
+.option{
+
+    width: 0.65rem;
+
+    border: 1px solid #26A69A;
+
+    border-radius: 2px;
+
+    float: left;
+
+    margin-left: 0.07rem;
+
+}

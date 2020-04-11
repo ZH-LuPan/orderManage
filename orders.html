@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>订单查询系统</title>
+    <link rel="stylesheet" href="./public/static/css/orders.css" media="all">
+</head>
+<body>
+<div class="wrap">
+    <div class="header">
+        <div class="head">
+            我的订单
+        </div>
+    </div>
+    <div class="content">
+
+    </div>
+
+</div>
+<script src="./public/layui/layui.all.js"></script>
+<script src="./public/jquery-1.11.3/jquery.min.js"></script>
+<script>
+    $(function () {
+        let sendData = {
+            'phone' : getUrlParam('phone')
+        }
+        $.post('./action/order.php?action=search',sendData,function (res) {
+            let result = JSON.parse(res)
+            if(result.code === 200){
+                renderOrderList(result.data);
+            }else{
+                layer.msg(result.msg,{'icon':2})
+            }
+        })
+    })
+
+
+    function renderOrderList(orderList){
+        var template = '';
+        $.each(orderList,function (i, data) {
+            template += '<div class="cell1">' +
+                '            <div class="title">' +
+                '                '+data.user_name+'<span>交易成功</span>' +
+                '            </div>' +
+                '            <div class="cell">' +
+                '                <div class="text">' +
+                '                    <div class="left_eye_num">左眼度数:'+data.left_eye_num+'</div>' +
+                '                    <span class="left_eye_light">左眼散光:'+data.left_eye_light+'</span>' +
+                '                    <span class="left_eye_axle">左眼轴距:'+data.left_eye_axle+'</span>' +
+                '                    <span class="right_eye_num">右眼度数:'+data.right_eye_num+'</span>' +
+                '                    <span class="right_eye_light">右眼散光:'+data.right_eye_light+'</span>' +
+                '                    <span class="right_eye_axle"> 右眼轴距:'+data.right_eye_axle+'</span>' +
+                '                    <span class="eye_len">瞳距:'+data.eye_len+'</span>' +
+                '                    <span class="eyeglasses_frame"> 镜架:'+data.eyeglasses_frame+'</span>' +
+                '                    <span class="eyeglasses">镜片:'+data.eyeglasses+'</span>' +
+                '                    <span class="price">价格:'+data.price+'</span>' +
+                '                    <span class="price">快递:'+data.express_name+'</span>' +
+                '                    <span class="price">快递单号:'+data.express_no+'</span>' +
+                '                    <span class="price">状态:'+data.statusStr+'</span>' +
+                '                </div>' +
+                '                <div class="img"><img style="width: 120px;height: 120px" src=".'+data.order_image+'"/></div>' +
+                '            </div>' +
+                '        </div>'
+        })
+        $('.content').html(template)
+    }
+
+    //获取参数
+    function getUrlParam(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]); return null;
+    }
+
+</script>
+<script>
+    autoSize();
+    window.onresize = function(){
+        autoSize();
+    }
+    function autoSize(){
+        var w = document.documentElement.clientWidth;
+        var size = w * 100 / 375 ;
+        var html = document.querySelector('html');
+        html.style.fontSize = size + 'px';
+    }
+
+
+
+</script>
+</body>
+</html>
+

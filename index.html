@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>订单管理系统</title>
+    <link rel="stylesheet" href="./public/layui/css/layui.css">
+</head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <a href="./index.html"><div class="layui-logo">订单管理系统</div></a>
+        <!-- 头部区域（可配合layui已有的水平导航） -->
+        <ul class="layui-nav layui-layout-left">
+        </ul>
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item">
+                <a href="javascript:;">
+                    <img src="http://t.cn/RCzsdCq" class="layui-nav-img"><span id="userName"></span>
+                </a>
+            </li>
+            <li class="layui-nav-item"><a href="./action/user.php?action=logout">注销</a></li>
+        </ul>
+    </div>
+
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul class="layui-nav layui-nav-tree"  lay-filter="test" id="menuList">
+
+            </ul>
+        </div>
+    </div>
+    <div class="layui-body">
+        <!-- 内容主体区域 -->
+    </div>
+</div>
+
+<script src="./public/layui/layui.all.js"></script>
+<script src="./public/jquery-1.11.3/jquery.min.js"></script>
+<script src="./public/static/js/common.js"></script>
+<script>
+$(function () {
+    pageLoad();         //页面初始化
+    contentLoad('order');      //内容加载
+})
+
+
+//页面初始化
+function pageLoad() {
+    $.post('./action/user.php?action=indexInit',{},function (res) {
+        let result = JSON.parse(res);
+        if(result.code === 200){
+            $('#userName').html(result.data.userName);
+            randMenuList(result.data.menuList);
+        }else if(result.code === 302){
+            window.location.href = result.url
+        }else{
+            layer.msg('系统异常',{'icon':2})
+        }
+    })
+}
+
+//加载目录
+function randMenuList(menuList){
+    let temple = ''
+    $.each(menuList, function (i, data) {
+        temple += '<li class="layui-nav-item" onclick="contentLoad(\''+data.url+'\',$(this))"><a>'+data.name+'</a></li>'
+    })
+    $('#menuList').html(temple)
+}
+</script>
+</body>
+</html>

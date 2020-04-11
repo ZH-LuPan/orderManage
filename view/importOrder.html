@@ -1,0 +1,50 @@
+<style>
+    .layui-input-block {
+        margin-left: 43px;
+        margin-top: 50px;
+        margin-right: 40px;
+        min-height: 18px;
+    }
+</style>
+<link rel="stylesheet" href="../public/layui/css/layui.css">
+<form class="layui-form">
+    <div class="layui-form-item">
+        <label class="layui-form-label">导入模板</label>
+        <div class="layui-input-block">
+            <select name="express_name">
+                <option value="1">中通快递</option>
+                <option value="2">顺丰快递</option>
+                <option value="3">申通快递</option>
+                <option value="4">圆通快递</option>
+                <option value="5">邮政快递</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <button type="button" class="layui-btn" id="uploadBtn" style="margin-left: 150px;margin-top: 50px">
+            <i class="layui-icon">&#xe67c;</i>上传文件
+        </button>
+    </div>
+</form>
+<script src="../public/layui/layui.all.js"></script>
+<script src="../public/jquery-1.11.3/jquery.min.js"></script>
+<script>
+    layui.use('upload', function(){
+        var upload = layui.upload;
+        var type = $('select[name="express_name"]').val();
+        //执行实例
+        upload.render({
+            elem: '#uploadBtn'
+            ,url: '../action/order.php?action=import'
+            ,accept: 'file'
+            ,data: {'type':type}
+            ,done: function(result){
+                if(result.code === 200){
+                    layer.msg(result.msg,{'icon':1})
+                }else{
+                    layer.msg(result.msg,{'icon':2})
+                }
+            }
+        });
+    });
+</script>

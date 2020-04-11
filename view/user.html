@@ -1,0 +1,148 @@
+<div style="padding: 15px;">
+    <div class="layui-inline">
+        <label class="layui-form-label"></label>
+        <div class="layui-input-inline">
+            <input id="keyword" type="text" autocomplete="off" name="keyword" placeholder="支持名称模糊搜索" class="layui-input">
+        </div>
+    </div>
+    <a id="searchBtn" class="layui-btn layui-btn-warm">搜索</a>
+    <a onclick="contentLoad('addUser')" style="float: right" class="layui-btn layui-btn-warm">添加</a>
+    <!--<i style="float: right" class="layui-icon">&#xe669;</i>-->
+    <table class="layui-table">
+        <colgroup>
+            <col width="150">
+            <col width="200">
+            <col>
+        </colgroup>
+        <thead>
+        <tr>
+            <th width="5%">ID</th>
+            <th width="13%">姓名</th>
+            <th width="13%">登录名</th>
+            <th>密码</th>
+            <th width="18%">备注</th>
+            <th>手机号码</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody id="phoneList">
+        </tbody>
+    </table>
+</div>
+<!--<script src="./public/layui/layui.js"></script>-->
+<script>
+
+    $(function () {
+        getList({})
+    })
+
+
+    $('#searchBtn').on('click', function () {
+        let sendData = {
+            'keyword': $('input[name="keyword"]').val()
+        }
+        getList(sendData);
+    })
+
+    function getList(condition) {
+        $.post('./action/user.php?action=getUser', condition, function (res) {
+            let result = JSON.parse(res);
+            if (result.code === 200) {
+                randerList(result.data)
+            } else {
+                layer.msg('系统异常', {'icon': 2})
+            }
+        })
+    }
+
+    function randerList(datalist) {
+        var temple = ''
+        $.each(datalist, function (i, data) {
+            temple += '<tr><td width="5%" class="id">' + data.id + '</td>' +
+                '<td width="10%"> ' +
+                '<div class="layui-inline">' +
+                '<label class="layui-form-label"></label>' +
+                '<div class="layui-input-inline">' +
+                '<input style="border: white" type="text" name="user_name" value="' + data.user_name + '" class="layui-input user_name">' +
+                '</div>' +
+                '</div>' +
+                '</td>' +
+                '<td width="10%"> ' +
+                '<div class="layui-inline">' +
+                '<label class="layui-form-label"></label>' +
+                '<div class="layui-input-inline">' +
+                '<input style="border: white" type="text" name="login_name" value="' + data.login_name + '" class="layui-input login_name">' +
+                '</div>' +
+                '</div>' +
+                '</td>' +
+                '<td width="10%">' +
+                '<div class="layui-inline">' +
+                '<label class="layui-form-label"></label>' +
+                '<div class="layui-input-inline">' +
+                '<input style="border: white" type="text" name="password" value="' + data.password + '" class="layui-input password">' +
+                '</div>' +
+                '</div>' +
+                '</td>' +
+                '<td>' +
+                '<div class="layui-inline" align="left">' +
+                '<label class="layui-form-label"></label>' +
+                '<div class="layui-input-inline">' +
+                '<input style="border: white;width: 250px" autocomplete="off" type="text" name="description" value="' + data.description + '" class="layui-input description">' +
+                '</div>' +
+                '</div>' +
+                '</td>' +
+                '<td>' +
+                '<div class="layui-inline" align="left">' +
+                '<label class="layui-form-label"></label>' +
+                '<div class="layui-input-inline">' +
+                '<input style="border: white;width: 250px" autocomplete="off" type="text" name="description" value="' + data.phone + '" class="layui-input phone">' +
+                '</div>' +
+                '</div>' +
+                '</td>' +
+                '<td> ' +
+                '<div>' +
+                '<a onclick="editUser($(this));"  class="layui-btn editBtn">修改</a>' +
+                '<a onclick="deleteUser(' + data.id + ');"   class="layui-btn layui-btn-danger delBtn">删除</a>' +
+                '</div>' +
+
+                '</td>' +
+                '</tr>'
+        })
+        $('#phoneList').html(temple)
+    }
+
+    function editUser(obj) {
+        var This = obj;
+        var sendData = {
+            'id': This.parents('tr').find('.id').html(),
+            'user_name': This.parents('tr').find('.user_name').val(),
+            'login_name': This.parents('tr').find('.login_name').val(),
+            'phone': This.parents('tr').find('.phone').val(),
+            'password': This.parents('tr').find('.password').val(),
+            'description': This.parents('tr').find('.description').val(),
+        }
+        let url = './action/user.php?action=editUser'
+        $.post(url, sendData, function (res) {
+            let result = JSON.parse(res);
+            if (result.code === 200) {
+                layer.msg(result.msg, {'icon': 1});
+            } else {
+                layer.msg(result.msg, {'icon': 2});
+            }
+
+        })
+    }
+
+    function deleteUser(id) {
+        let url = './action/user.php?action=delUser'
+        $.post(url, {'id': id}, function (res) {
+            let result = JSON.parse(res);
+            if (result.code === 200) {
+                layer.msg(result.msg, {'icon': 1});
+            } else {
+                layer.msg(result.msg, {'icon': 2});
+            }
+            getList();
+        })
+    }
+</script>

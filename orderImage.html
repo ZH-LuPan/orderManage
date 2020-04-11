@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <title>订单图片</title>
+    <link href="./public/static/css/orderImage.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="./public/static/js/zepto_min.js"></script>
+    <script type="text/javascript" src="./public/static/js/touchslider.js"></script>
+    <script type="text/javascript" src="./public/static/js/common.js"></script>
+</head>
+<body>
+<div class="hdp-box">
+    <div class="title">订单图片</div>
+    <div id="slider" class="swipe">
+        <ul class="piclist">
+        </ul>
+    </div>
+
+<!--    <div class="count">-->
+<!--        <b class="bi">1</b>/<b class="bcount"></b>-->
+<!--    </div>-->
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        let sendData = {
+            'order_id' : getUrlParam('id')
+        }
+        $.post('./action/image.php?action=orderImage',sendData,function (res) {
+            let result = JSON.parse(res)
+            if(result.code === 200){
+                renderOrderImageList(result.data);
+            }else{
+                layer.msg(result.msg,{'icon':2})
+            }
+        })
+    })
+
+    function renderOrderImageList(dataList){
+        var template = '';
+        $.each(dataList,function (i, data) {
+            template += '<li><img src="'+data.url+'"></li>';
+        })
+        $('.piclist').html(template)
+    }
+
+    $(function(){
+        var num=$('#slider').find('li').size();
+        $('.bcount').text(num);
+        $('.b_btn').click(function(){
+            $(this).toggleClass('b_btn_active');
+            $('.intro').toggle();
+        })
+    })
+    var tt=new TouchSlider({id:'slider','auto':'-1',fx:'ease-out',direction:'left',speed:600,timeout:5000,'before':function(index){
+            var es=document.getElementById('slider').getElementsByTagName('li');
+            var it=$(es[index]).index()+1;
+            $('.bi').text(it);
+            var tx=$(es[index]).find('p').text();
+            $('.title').text(tx);
+        }});
+</script>
+</body>
+</html>
+

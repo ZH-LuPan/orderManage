@@ -1,0 +1,105 @@
+.layui-table td{border:3px solid #000}
+.layui-table {border:1px solid #000;border-collapse: collapse}
+.layui-table td{border:1px solid #000;}
+.salesList {
+    font-size: 9px;
+    padding: 40px 60px;
+    text-align: center;
+    clear: both;
+}
+
+.salesList-title {
+    font-size: 28px;
+}
+
+.salesList-serial {
+    font-size: 16px;
+    color: rgb(238, 44, 44);
+    float: right;
+    margin: 20px 20px 0 0;
+
+}
+
+.line-input {
+    border-color: #000;
+    border-style: solid;
+    border-top-width: 0px;
+    border-right-width: 0px;
+    border-bottom-width: 1px;
+    border-left-width: 0px;
+    border-radius: 0px;
+
+}
+.layui-table {
+    color: #000 !important;
+}
+
+.layui-form-label {
+    padding: 0 15px;
+}
+
+.layui-input,
+.layui-select,
+.layui-textarea {
+    height: unset;
+}
+
+.layui-input:focus,
+.layui-textarea:focus,
+.layui-input:hover,
+.layui-textarea:hover {
+    border-color: #000 !important;
+}
+
+.content .layui-display {
+    padding-top: 20px;
+    margin-bottom: 10px;
+}
+
+.layui-table td,
+.layui-table th,
+.layui-table-col-set,
+.layui-table-fixed-r,
+.layui-table-grid-down,
+.layui-table-header,
+.layui-table-page,
+.layui-table-tips-main,
+.layui-table-tool,
+.layui-table-total,
+.layui-table-view,
+.layui-table[lay-skin=line],
+.layui-table[lay-skin=row] {
+    border-color: #000;
+    width: 150px;
+    /*background: #fff !important;*/
+}
+
+.layui-td {
+    padding-top: 20px;
+}
+.content-date {
+    text-align: right;
+    color: #000;
+    margin-right: 40px;
+}
+
+blockquote, body, button, dd, div, dl, dt, form, h1, h2, h3, h4, h5, h6, input, li, ol, p, pre, td, textarea, th, ul {
+    margin: -2px;
+    padding: 0px;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+
+.layui-table td, .layui-table th, .layui-table-col-set, .layui-table-fixed-r, .layui-table-grid-down, .layui-table-header, .layui-table-page, .layui-table-tips-main, .layui-table-tool, .layui-table-total, .layui-table-view, .layui-table[lay-skin=line], .layui-table[lay-skin=row] {
+    border-width: 1px;
+    border-style: solid;
+    /*border-color: #000;*/
+    border-collapse:collapse;
+}
+
+.layui-table td, .layui-table th {
+    position: relative;
+    padding: 9px 15px;
+    min-height: 20px;
+    line-height: 19px;
+    font-size: 10px;
+}

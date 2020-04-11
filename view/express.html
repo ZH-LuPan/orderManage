@@ -1,0 +1,260 @@
+<style>
+    .layui-btn+.layui-btn {
+        margin-left: 0px;
+    }
+</style>
+<div style="padding: 15px;">
+    <div class="demoTable">
+        导出状态:
+        <div class="layui-inline">
+            <select class="layui-select" name="is_export" id="is_export">
+                <option value="">全部</option>
+                <option value="1">已导出</option>
+                <option value="2">未导出</option>
+            </select>
+        </div>
+        &nbsp;姓名:
+        <div class="layui-inline">
+            <input class="layui-input" name="id" id="user_name" autocomplete="off" />
+        </div>
+        &nbsp;电话:
+        <div class="layui-inline">
+            <input class="layui-input" name="id" id="phone" autocomplete="off" />
+        </div>
+<!--        日期：-->
+<!--        <div class="layui-inline">-->
+<!--            <input class="layui-input" name="id" id="orderDate" autocomplete="off" />-->
+<!--        </div>-->
+        <button class="layui-btn" data-type="reload" id="searchBtn">搜索</button>
+<!--    </div>-->
+    <table class="layui-hide" id="demo" lay-filter="test">
+
+    </table>
+    <script type="text/html" id="barDemo">
+<!--        <a class="layui-btn layui-btn-xs" lay-event="export">导出</a>-->
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    </script>
+
+    <script type="text/html" id="toolbarDemo">
+        <div class="layui-btn-container">
+            <button class="layui-btn layui-btn-sm" lay-event="delete">删除</button>
+            <button class="layui-btn layui-btn-sm" lay-event="export">导出</button>
+        </div>
+    </script>
+
+</div>
+<!--<script src="./public/layui/layui.all.js"></script>-->
+<!--<script src="./public/clipboard/clipboard.min.js"></script>-->
+<script>
+    layui.use(['laydate', 'laypage', 'layer', 'table','upload', 'carousel', 'upload', 'element', 'slider'], function(){
+        var  laypage = layui.laypage //分页
+            ,layer = layui.layer //弹层
+            ,table = layui.table //表格
+            ,element = layui.element //元素操作
+
+        //监听Tab切换
+        element.on('tab(demo)', function(data){
+            layer.tips('切换了 '+ data.index +'：'+ this.innerHTML, this, {
+                tips: 1
+            });
+        });
+
+        //执行一个 table 实例,
+        var tableIns = table.render({
+            elem: '#demo'
+            , height: 768
+            , url: './action/express.php?action=get'   //数据接口
+            , title: '用户表'
+            , page: true //开启分页
+            , limit: 50
+            , toolbar: '#toolbarDemo' //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
+            , defaultToolbar: ['export', { //自定义头部工具栏右侧图标。如无需自定义，去除该参数即可
+                title: '提示'
+                , layEvent: 'LAYTABLE_TIPS'
+                , icon: 'layui-icon-tips'
+            }]
+            , cols: [[
+                {type: 'checkbox', fixed: 'left'}
+                , {field: 'id', title: '序号', width: 80, sort: true}
+                , {field: 'order_id', title: '订单号', width: 120, sort: true}
+                , {field: 'user_name', title: '用户名', width: 120, sort: true}
+                , {field: 'phone', title: '手机号', width: 150}
+                , {field: 'address', title: '收货地址', width: 400}
+                , {field: 'create_time', title: '添加时间', width: 180}
+                , {field: 'update_time', title: '导出时间', width: 180}
+                , {field: 'is_export', title: '是否导出', width: 100}
+                , {fixed: 'right', width: 200, align: 'center', toolbar: '#barDemo'}
+
+            ]],
+            id: 'orderList',
+            done: function () {
+                table_tr_color('layui-table');
+            }
+        });
+
+        function table_tr_color(tableClassName) {
+            var table = $('.'+tableClassName).eq(1);
+            if(table.length){
+                table.find('tr').each(function () {
+                    var status = $(this).find('td[data-field="status"] div').html();
+                    if(status === '3'){
+                        $(this).attr('style',"background:#FFB6C1;color:#fff");
+                    }
+                })
+            }
+        }
+
+        var $ = layui.$, active = {
+            reload: function(){
+                //执行重载
+                table.reload('orderList', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                    ,where: {
+                        user_name: {
+                            user_name: $('#user_name').val()
+                        },
+                        phone: {
+                            phone: $('#phone').val()
+                        },
+                        is_export: {
+                            is_export: $('#is_export').val()
+                        }
+                    }
+                }, 'data');
+            }
+        };
+
+        $('#searchBtn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+        //监听头工具栏事件
+        table.on('toolbar(test)', function(obj){
+            var checkStatus = table.checkStatus(obj.config.id)
+                ,data = checkStatus.data; //获取选中的数据
+            switch(obj.event){
+                case 'update':
+                    if(data.length === 0){
+                        layer.msg('请选择一行');
+                    } else if(data.length > 1){
+                        layer.msg('只能同时编辑一个');
+                    } else {
+                        // layer.alert('编辑 [id]：'+ checkStatus.data[0].id);
+                        layer.open({
+                            type: 2,
+                            area:['700px','800px'],
+                            content: './view/addOrder.html?id='+checkStatus.data[0].id
+                        });
+                    }
+                    break;
+                case 'delete':
+                    if(data.length === 0){
+                        layer.msg('请选择一行');
+                    } else {
+                        layer.confirm('真的删除次行么', function(index){
+                            var ids = new Array();
+                            $.each(data, function (index, item) {
+                                ids.push(item.id)
+                            });
+                            ids = ids.join(',')
+                            deleteOrder(ids)
+                            tableIns.reload()
+                        })
+                    }
+                    break;
+                case 'export':
+                    if(data.length === 0){
+                        layer.msg('请选择一行');
+                    } else {
+                        layer.confirm('', {
+                            title: '请选择导出模板',
+                            btn: ['中通', '顺丰', '申通', '圆通', '邮政'],
+                            btn1: function () {
+                                exportOrder(data, 1)
+                            },
+                            btn2: function () {
+                                layer.msg('暂不支持导出顺丰模板')
+                                // exportOrder(data,2)
+                            },
+                            btn3: function () {
+                                layer.msg('暂不支持导出申通模板')
+                                // exportOrder(data,3)
+                            },
+                            btn4: function () {
+                                layer.msg('暂不支持导出圆通模板')
+                                // exportOrder(data,4)
+                            },
+                            btn5: function () {
+                                layer.msg('暂不支持导出邮政模板')
+                                // exportOrder(data,5)
+                            },
+                            area: ['400px', '150px'],
+                            end: function () {
+                                tableIns.reload();
+                            }
+                        });
+                    }
+            };
+        });
+
+        //监听行工具事件
+        table.on('tool(test)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+            var data = obj.data //获得当前行数据
+                ,layEvent = obj.event; //获得 lay-event 对应的值
+            if(layEvent === 'del'){
+                layer.confirm('真的删除次行么', function(index){
+                    deleteOrder(data.id);
+                    obj.del(); //删除对应行（tr）的DOM结构
+                    layer.close(index);
+                });
+            }
+        });
+
+        //分页
+        laypage.render({
+            elem: 'pageDemo' //分页容器的id
+            ,count: 100 //总页数
+            ,skin: '#1E9FFF' //自定义选中色值
+            //,skip: true //开启跳页
+            ,jump: function(obj, first){
+                if(!first){
+                    layer.msg('第'+ obj.curr +'页', {offset: 'b'});
+                }
+            }
+        });
+
+    });
+</script>
+
+<script type="text/html" id="is_print">
+  {{#  if(d.is_print == 1){ }}
+    <span style="color: #F581B1;">已打印</span>
+  {{#  } else { }}
+    {{  }}
+  {{#  } }}
+
+</script>
+
+<script>
+    //删除订单
+    function deleteOrder(id) {
+        $.post('./action/express.php?action=delete',{id:id},function (res) {
+            var result = JSON.parse(res);
+            if(result.code === 200){
+                layer.msg(result.msg,{'icon':1})
+            }
+        })
+    }
+
+    //导出订单
+    function exportOrder(data,express_type){
+        var ids = new Array();
+        $.each(data, function (index, item) {
+             ids.push(item.id)
+        });
+        window.location.href = './action/express.php?action=export&type='+express_type+'&id='+ids.join(',');
+    }
+</script>

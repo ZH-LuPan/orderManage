@@ -1,0 +1,79 @@
+<style>
+    .layui-input-block {
+        margin-left: 43px;
+        margin-top: 50px;
+        margin-right: 40px;
+        min-height: 18px;
+    }
+</style>
+<link rel="stylesheet" href="../public/layui/css/layui.css">
+<form class="layui-form">
+    <div class="layui-form-item">
+        <label class="layui-form-label">快递单号</label>
+        <div class="layui-input-block">
+            <input type="text" name="express_no" placeholder="请输入快递单号" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">快递公司</label>
+        <div class="layui-input-block">
+            <select name="express_name">
+                <option value="">请选择快递</option>
+                <option value="中通快递">中通快递</option>
+                <option value="申通快递">申通快递</option>
+                <option value="圆通快递">圆通快递</option>
+                <option value="顺丰快递">顺丰快递</option>
+                <option value="韵达快递">韵达快递</option>
+                <option value="天天快递">天天快递</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <a class="layui-btn" id="submitBtn">确认</a>
+            <a class="layui-btn layui-btn-primary" id="cancelBtn">取消</a>
+        </div>
+    </div>
+</form>
+<script src="../public/layui/layui.all.js"></script>
+<script src="../public/jquery-1.11.3/jquery.min.js"></script>
+<script>
+    layui.use(['form'], function(){
+        var form = layui.form
+        form.render()
+    })
+    $('#submitBtn').on('click', function () {
+        let express_no = $('input[name="express_no"]').val()
+        let express_name = $('select[name="express_name"]').val()
+        let sendData = {
+            'id': getUrlParam('id'),
+            'express_no': express_no,
+            'express_name': express_name
+        }
+        doneOrder(sendData)
+    })
+
+    $('#cancelBtn').on('click', function () {
+        var index = parent.layer.getFrameIndex(window.name);
+        parent.layer.close(index);
+    })
+
+    function doneOrder(sendData) {
+        $.post('../action/order.php?action=done',sendData,function (res) {
+            var result = JSON.parse(res);
+            if(result.code === 200){
+                layer.msg(result.msg,{'icon':1})
+                var index = parent.layer.getFrameIndex(window.name);
+                parent.layer.close(index);
+            }else{
+                layer.msg(result.msg,{'icon':2})
+            }
+        })
+    }
+    //获取参数
+    function getUrlParam(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]); return null;
+    }
+</script>

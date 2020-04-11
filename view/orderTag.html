@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>订单标签</title>
+</head>
+
+<body>
+<div class="display-flex">
+    <table frame="none" style="width: 7cm;height: 2cm">
+        <tr>
+            <td id="user_name"></td>
+            <td>完成</td>
+            <td><input type="checkbox" /></td>
+        </tr>
+        <tr>
+            <td id="grass"></td>
+            <td></td>
+            <td><input type="checkbox" /></td>
+        </tr>
+        <tr>
+            <td id="grass_fram"></td>
+            <td></td>
+            <td><input type="checkbox" /></td>
+        </tr>
+    </table>
+</div>
+</body>
+
+</html>
+</div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" id="printBtn">打印</button>
+        </div>
+    </div>
+</div>
+<!--<script src="../public/layui/layui.all.js"></script>-->
+<script src="../public/jquery-1.11.3/jquery.min.js"></script>
+<script src="http://www.jq22.com/jquery/jquery-migrate-1.2.1.min.js"></script>
+<script src="../public/print/jquery.jqprint-0.3.js"></script>
+<script>
+    $(function () {
+        var id = getUrlParam('id');
+        $('input[name="id"]').val(id);
+        if(id){
+            pageDateInit(id);
+        }
+    })
+    function pageDateInit(id){
+        $.post('../action/order.php?action=orderInfo',{'id':id},function (res) {
+            var result = JSON.parse(res);
+            var info = result.data;
+            if(result.code === 200){
+                $('#user_name').html(info.user_name)
+                $('#grass').html(info.eyeglasses)
+                $('#grass_fram').html(info.eyeglasses_frame)
+
+            }
+        })
+    }
+
+    $('#printBtn').on('click',function () {
+        $('.display-flex').jqprint({
+            debug: false,
+            importCSS: true,
+            printContainer: true,
+            operaSupport: false
+        });
+    })
+    //获取参数
+    function getUrlParam(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]); return null;
+    }
+</script>
