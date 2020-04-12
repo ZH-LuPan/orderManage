@@ -15,10 +15,10 @@ class Database
     //构造方法，自动PDO连接数据库
     public function __construct($table)
     {
-        $host = 'sql.l211.vhostgo.com';
-        $dbName = '123456lupan';
-        $userName = '123456lupan';
-        $pwd = '1234lupan';
+        $host = '';
+        $dbName = '';
+        $userName = '';
+        $pwd = '';
 
         try {
             //连接MySQL数据库
