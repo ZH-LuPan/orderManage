@@ -60,9 +60,10 @@ if($action && $action == 'getOrder'){
     $size = $_GET['limit'];
     $sort = @$_GET['sort'];
     $postArr = $_POST;
+    $id = isset($_GET['id']) ? $_GET['id']['id'] : '';
     $user_name = isset($_GET['user_name']) ? $_GET['user_name']['user_name'] : '';
     $phone = isset($_GET['phone']) ? $_GET['phone']['phone'] : '';
-    $order_date = isset($_GET['order_date']) ? $_GET['order_date']['order_date'] : '';
+    $order_date = (isset($_GET['order_date']['order_date']) && $_GET['order_date']['order_date']) ? explode(' - ',$_GET['order_date']['order_date']) : [];
     $create_user_id = isset($_GET['create_user_id']) ? $_GET['create_user_id']['create_user_id'] : '';
     $status = isset($_GET['status']) ? $_GET['status']['status'] : '';
 
@@ -74,13 +75,14 @@ if($action && $action == 'getOrder'){
     $order = 'id desc';
     $sort == 'id' && $order = 'id asc';
 
-
+    $id && $where .= ' and `id` = '.$id;
     $user_name && $where .= ' and `user_name` like '.'"%'.$user_name.'%'.'"';
     $phone && $where .= ' and `phone` like '.'"%'.$phone.'%'.'"';
-    $order_date && $where .= ' and `order_date` = '.strtotime($order_date);
+    $order_date && $where .= ' and `order_date` between '.strtotime($order_date[0]) .' and ' .@strtotime($order_date[1]);
     $create_user_id && $where .= ' and `create_user_id` = '.$create_user_id;
     $status && $where .= ' and `status` = '.$status;
     $totalCount = $db->wheres($where)->counts();
+//    print_r($where);die;
     $result = $db->wheres($where)->order($order)->limit(($page-1)*$size,$size)->select();
     if(is_array($result)) foreach ($result as $key => $value){
         $result[$key]['editUrl'] = './index.html?module=addLeave&id='.$value['id'];

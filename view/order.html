@@ -15,7 +15,25 @@
         </div>
         日期：
         <div class="layui-inline">
-            <input class="layui-input" name="id" id="orderDate" autocomplete="off" style="width: 130px;"/>
+            <input type="text" class="layui-input" name="id" id="orderDate" autocomplete="off" style="width: 130px;"/>
+        </div>
+        序号：
+        <div class="layui-inline">
+            <input class="layui-input" name="id" id="id" autocomplete="off" style="width: 50px;"/>
+        </div>
+        左眼：
+        <div class="layui-inline">
+            <input class="layui-input" name="id" id="left_eye_num" placeholder="度数" autocomplete="off" style="width: 50px;"/>
+        </div>
+        <div class="layui-inline">
+            <input class="layui-input" name="id" id="left_eye_light" placeholder="散光" autocomplete="off" style="width: 50px;"/>
+        </div>
+        右眼：
+        <div class="layui-inline">
+            <input class="layui-input" name="id" id="right_eye_num" placeholder="度数" autocomplete="off" style="width: 50px;"/>
+        </div>
+        <div class="layui-inline">
+            <input class="layui-input" name="id" id="right_eye_light" placeholder="散光" autocomplete="off" style="width: 50px;"/>
         </div>
         客服:
         <div class="layui-inline">
@@ -85,12 +103,18 @@
             ,table = layui.table //表格
             ,upload = layui.upload
             ,element = layui.element //元素操作
+            ,date = layui.laydate
 
         //监听Tab切换
         element.on('tab(demo)', function(data){
             layer.tips('切换了 '+ data.index +'：'+ this.innerHTML, this, {
                 tips: 1
             });
+        });
+
+        date.render({
+            elem:'#orderDate'
+            ,range:true
         });
 
         //执行一个 table 实例,
@@ -162,6 +186,9 @@
                         curr: 1 //重新从第 1 页开始
                     }
                     ,where: {
+                        id:{
+                            id:$('#id').val()
+                        },
                         user_name: {
                             user_name: $('#user_name').val()
                         },
